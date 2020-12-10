@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@global.css"
+            styleClass="panel-success"
+            fx:controller="com.mellonrobot.faceunlockfx.DebugController">
+    <top>
+        <MenuBar BorderPane.alignment="CENTER" >
+            <menus>
+                <Menu mnemonicParsing="false" text="首页">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#goMain" text="返回首页"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <VBox prefWidth="300" style="-fx-padding: 5px">
+            <children>
+                <Label styleClass="h3, text-primary" text="串口设置"/>
+                <GridPane style="-fx-padding: 5px;-fx-border-color: darkgrey;" vgap="10" hgap="10">
+                    <children>
+                        <Label text="串口号:" styleClass="h4, text-info" GridPane.columnIndex="0" prefWidth="100"/>
+                        <ChoiceBox fx:id="serPort" GridPane.columnIndex="1" prefWidth="160"/>
+                        <Button fx:id="serPortRefreshBtn" GridPane.rowIndex="0" GridPane.columnIndex="2" prefWidth="40" styleClass="btn, btn-info" mnemonicParsing="false" text="刷新" onAction="#refreshSerialPort"/>
+                        <Label text="波特率:" styleClass="h4, text-info" GridPane.rowIndex="1" prefWidth="100"/>
+                        <ChoiceBox fx:id="serPortBaudRate" GridPane.columnIndex="1" GridPane.rowIndex="1" prefWidth="200" GridPane.columnSpan="2"/>
+                        <Label text="检验位:" styleClass="h4, text-info" GridPane.rowIndex="2" prefWidth="100"/>
+                        <ChoiceBox fx:id="serPortParity" GridPane.columnIndex="1" GridPane.rowIndex="2" prefWidth="200" GridPane.columnSpan="2"/>
+                        <Label text="数据位:" styleClass="h4, text-info" GridPane.rowIndex="3" prefWidth="100"/>
+                        <ChoiceBox fx:id="serPortDataBits" GridPane.columnIndex="1" GridPane.rowIndex="3" prefWidth="200" GridPane.columnSpan="2"/>
+                        <Label text="停止位:" styleClass="h4, text-info" GridPane.rowIndex="4" prefWidth="100"/>
+                        <ChoiceBox fx:id="serPortStopBits" GridPane.columnIndex="1" GridPane.rowIndex="4" prefWidth="200" GridPane.columnSpan="2"/>
+                        <Button fx:id="serPortOpenBtn" GridPane.columnSpan="3" GridPane.rowIndex="5" prefWidth="300" styleClass="btn, btn-success" mnemonicParsing="false" style="-fx-top-margin: 15px" text="打开"/>
+                    </children>
+                </GridPane>
+                <Label styleClass="h3, text-primary" text="接收区设置"/>
+                <GridPane style="-fx-padding: 5px;-fx-border-color: darkgrey;" vgap="10" hgap="10">
+                    <CheckBox fx:id="recvShowHex" minHeight="20" mnemonicParsing="false" text="十六进制显示" styleClass="h4, text-info" GridPane.rowIndex="0"/>
+                    <CheckBox fx:id="recvShowTime" minHeight="20" mnemonicParsing="false" text="显示时间" styleClass="h4, text-info" GridPane.rowIndex="1"/>
+                    <CheckBox fx:id="recvStopShow" minHeight="20" mnemonicParsing="false" text="暂停接收" styleClass="h4, text-info" GridPane.rowIndex="2"/>
+                    <Button fx:id="recvClear" prefWidth="300" styleClass="btn, btn-warning" mnemonicParsing="false" text="清除"  GridPane.rowIndex="3"/>
+                </GridPane>
+                <Label styleClass="h3, text-primary" text="发送区设置"/>
+                <GridPane style="-fx-padding: 5px;-fx-border-color: darkgrey;" vgap="10" hgap="10">
+                    <CheckBox fx:id="sendHex" minHeight="20" mnemonicParsing="false" text="十六进制发送" styleClass="h4, text-info" GridPane.columnSpan="2"  GridPane.rowIndex="0"/>
+                    <CheckBox fx:id="sendCycle" minHeight="20" mnemonicParsing="false" text="循环发送" styleClass="h4, text-info" GridPane.columnSpan="2"  GridPane.rowIndex="1"/>
+                    <Label text="间隔(ms):" styleClass="h4, text-info" GridPane.columnIndex="0"  GridPane.rowIndex="2"/>
+                    <TextField fx:id="sendCycleRap" text="1000" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                    <Button fx:id="sendClear" prefWidth="300" mnemonicParsing="false" styleClass="btn, btn-warning" text="清除" GridPane.columnSpan="2" GridPane.rowIndex="3"/>
+                </GridPane>
+            </children>
+        </VBox>
+    </left>
+    <bottom>
+        <GridPane style="-fx-padding: 5px;-fx-border-color: darkgrey;-fx-padding: 5px" BorderPane.alignment="CENTER">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="15.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <Label text="发送统计："/>
+                <Label fx:id="sendCount" text="0" GridPane.columnIndex="1"/>
+                <Label text="接收统计" GridPane.columnIndex="2"/>
+                <Label fx:id="recvCount" text="0" GridPane.columnIndex="3"/>
+                <Button fx:id="CountReset" mnemonicParsing="false" text="重置统计" GridPane.columnIndex="4"/>
+            </children>
+        </GridPane>
+    </bottom>
+    <center>
+        <VBox style="-fx-padding: 5px" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="接收区" styleClass="h3, text-primary" style="-fx-label-padding: 5px"/>
+                <TextArea fx:id="recvTextAear" editable="false"/>
+                <Label text="发送区" styleClass="h3, text-primary" style="-fx-label-padding: 5px"/>
+                <TextArea fx:id="sendTextAear"/>
+                <Button fx:id="sendBtn" styleClass="btn, btn-primary, btn-lg" minWidth="400" mnemonicParsing="false" prefWidth="100" prefHeight="50" text="发送" GridPane.columnIndex="1"/>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
+

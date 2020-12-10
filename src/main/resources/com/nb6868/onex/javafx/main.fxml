@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+<?import org.kordamp.bootstrapfx.scene.layout.*?>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            stylesheets="@main.css"
+            styleClass="panel-default"
+            fx:controller="com.mellonrobot.faceunlockfx.MainController">
+    <top>
+        <GridPane>
+            <children>
+                <MenuBar BorderPane.alignment="CENTER">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="系统">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#appSetting" text="系统设置"/>
+                                <MenuItem mnemonicParsing="false" onAction="#hiddenLogSetting" text="显示/隐藏调试"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="机械臂">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#mechanicalSetting" text="设置"/>
+                                <MenuItem mnemonicParsing="false" onAction="#mechanicalRotationSetting" text="角度"/>
+                                <MenuItem mnemonicParsing="false" onAction="#mechanicalCenterPositionSetting" text="中心点位"/>
+                                <MenuItem mnemonicParsing="false" onAction="#mechanicalPositionSetting" text="坐标移动"/>
+                                <MenuItem mnemonicParsing="false" onAction="#mechanicalAngleSetting" text="姿态移动"/>
+                                <!--<MenuItem mnemonicParsing="false" onAction="#mechanicalAxisMaxSpeedSetting" text="六轴加速度"/>-->
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="导轨">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#electricControlSetting" text="设置"/>
+                                <MenuItem mnemonicParsing="false" onAction="#electricControlRotationSetting" text="移动"/>
+                                <!--<MenuItem mnemonicParsing="false" onAction="#electricControlSpeedSetting" text="速度"/>-->
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="安卓">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#androidSetting" text="设置"/>
+                                <MenuItem mnemonicParsing="false" onAction="#androidBatterySetting" text="状态"/>
+                                <MenuItem mnemonicParsing="false" onAction="#androidOpenAppSetting" text="启动应用"/>
+                                <MenuItem mnemonicParsing="false" onAction="#androidKeySetting" text="模拟键"/>
+                                <MenuItem mnemonicParsing="false" onAction="#androidShellSetting" text="shell指令"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="检测">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#reportSetting" text="检测项设置"/>
+                                <MenuItem mnemonicParsing="false" onAction="#deleteReport" text="清空项目"/>
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="帮助">
+                            <items>
+                                <MenuItem mnemonicParsing="false" onAction="#goAbout" text="关于"/>
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+            </children>
+        </GridPane>
+    </top>
+    <left>
+        <GridPane BorderPane.alignment="CENTER" alignment="TOP_CENTER">
+            <children>
+                <org.kordamp.bootstrapfx.scene.layout.Panel styleClass="panel-warning" GridPane.rowIndex="0">
+                    <heading>
+                        <Label styleClass="h3" text="检测设备"/>
+                    </heading>
+                    <body>
+                        <VBox style="-fx-padding: -15px;">
+                            <children>
+                                <GridPane style="-fx-padding: 15px; " vgap="5" hgap="10"
+                                          alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label fx:id="androidName" text="设备未连接" styleClass="h4, text-default" GridPane.columnIndex="0"
+                                               GridPane.columnSpan="2"/>
+
+                                        <Button fx:id="androidOpenBtn" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="2"
+                                                styleClass="btn, btn-lg, btn-info"
+                                                mnemonicParsing="false"
+                                                prefWidth="400"
+                                                onAction="#androidLink" text="连接"/>
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </VBox>
+                    </body>
+                </org.kordamp.bootstrapfx.scene.layout.Panel>
+                <org.kordamp.bootstrapfx.scene.layout.Panel styleClass="panel-warning" GridPane.rowIndex="1">
+                    <heading>
+                        <Label styleClass="h3" text="机械臂"/>
+                    </heading>
+                    <body>
+                        <VBox style="-fx-padding: -15px;">
+                            <children>
+                                <GridPane style="-fx-padding: 15px;" vgap="5" hgap="10"
+                                          alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label fx:id="mechanicalName" text="设备未连接" styleClass="h4, text-default" GridPane.columnIndex="0"
+                                               GridPane.columnSpan="2"/>
+
+                                        <Button fx:id="mechanicalLinkBtn" onAction="#mechanicalLink"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="1"
+                                                styleClass="btn, btn-lg, btn-info"
+                                                mnemonicParsing="false" prefWidth="200" text="连接"/>
+                                        <Button fx:id="mechanicalCloseBtn" onAction="#mechanicalClose"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                                styleClass="btn, btn-lg, btn-warning"
+                                                mnemonicParsing="false" prefWidth="200" text="关闭"/>
+
+                                        <!--<Button fx:id="mechanicalStopBtn" onAction="#mechanicalStop"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="2"
+                                                styleClass="btn, btn-lg, btn-danger"
+                                                mnemonicParsing="false" prefWidth="200" text="停止"/>
+                                        <Button fx:id="mechanicalPauseBtn" onAction="#mechanicalPause"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                                styleClass="btn, btn-lg, btn-warning"
+                                                mnemonicParsing="false" prefWidth="200" text="暂停"/>-->
+
+                                        <Button fx:id="mechanicalAxisRotationBtn" onAction="#mechanicalGoInitRotation"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="2"
+                                                styleClass="btn, btn-lg, btn-primary"
+                                                mnemonicParsing="false" prefWidth="200" text="初始角度"/>
+                                        <Button fx:id="mechanicalMoveBtn" onAction="#mechanicalLoopMoveAngle"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                                styleClass="btn, btn-lg, btn-default"
+                                                mnemonicParsing="false" prefWidth="200" text="试跑一圈"/>
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </VBox>
+                    </body>
+                </org.kordamp.bootstrapfx.scene.layout.Panel>
+                <org.kordamp.bootstrapfx.scene.layout.Panel styleClass="panel-warning" GridPane.rowIndex="2">
+                    <heading>
+                        <Label styleClass="h3" text="导轨"/>
+                    </heading>
+                    <body>
+                        <VBox style="-fx-padding: -15px;">
+                            <children>
+                                <GridPane style="-fx-padding: 15px;" vgap="5" hgap="10"
+                                          alignment="CENTER_LEFT">
+                                    <children>
+                                        <Label fx:id="electricControlName" text="设备未连接" styleClass="h4, text-default"
+                                               GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="4"/>
+
+                                        <Button fx:id="electricControlOpenBtn" onAction="#electricControlLink"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.columnSpan="4"
+                                                styleClass="btn, btn-lg, btn-info"
+                                                mnemonicParsing="false" prefWidth="400" text="连接"/>
+
+                                        <Label text="距离(mm):" styleClass="h4, text-info" prefWidth="90"
+                                               GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                                        <TextField fx:id="electricControlDistance"
+                                                   prefWidth="100"
+                                                   text="100"
+                                                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                        <Label text="方向:" styleClass="h4, text-info" prefWidth="90"
+                                               GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                                        <ChoiceBox fx:id="electricControlDirect" prefWidth="90"
+                                                   GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+
+                                        <Button fx:id="electricControlRotationBtn" onAction="#electricControlRotation"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="3" GridPane.columnSpan="2"
+                                                styleClass="btn, btn-lg, btn-primary"
+                                                mnemonicParsing="false" prefWidth="200" text="转动"/>
+                                        <Button fx:id="electricControlStopRotationBtn" onAction="#electricControlStopRotation"
+                                                GridPane.columnIndex="2" GridPane.rowIndex="3" GridPane.columnSpan="2"
+                                                styleClass="btn, btn-lg, btn-danger"
+                                                mnemonicParsing="false" prefWidth="200" text="停止"/>
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </VBox>
+                    </body>
+                </org.kordamp.bootstrapfx.scene.layout.Panel>
+                <org.kordamp.bootstrapfx.scene.layout.Panel styleClass="panel-primary" GridPane.rowIndex="3">
+                    <heading>
+                        <Label styleClass="h3" text="检测"/>
+                    </heading>
+                    <body>
+                        <VBox style="-fx-padding: -15px;">
+                            <children>
+                                <GridPane style="-fx-padding: 15px;" vgap="5" hgap="10"
+                                          alignment="CENTER_LEFT">
+                                    <children>
+                                        <ChoiceBox fx:id="reportChoice" styleClass="big_choiceBox" GridPane.columnIndex="0"
+                                                   GridPane.rowIndex="0"
+                                                   prefWidth="200"/>
+                                        <Button fx:id="reportAddBtn" onAction="#reportAdd"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="0"
+                                                styleClass="btn, btn-default"
+                                                mnemonicParsing="false" prefWidth="90" text="添加项目"/>
+                                        <ChoiceBox fx:id="reportDeviceChoice" styleClass="big_choiceBox" GridPane.columnIndex="2"
+                                                   GridPane.rowIndex="0"
+                                                   prefWidth="90"/>
+
+                                        <Button fx:id="reportStartBtn" onAction="#reportStartAngle"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="1"
+                                                styleClass="btn, btn-lg, btn-info"
+                                                mnemonicParsing="false" prefWidth="200" text="固定位检测"/>
+                                        <Button fx:id="reportStopBtn" onAction="#reportStop"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="1"
+                                                GridPane.columnSpan="2"
+                                                styleClass="btn, btn-lg, btn-danger"
+                                                mnemonicParsing="false" prefWidth="200" text="停止"/>
+
+                                        <Button fx:id="reportMoveStartBtn" onAction="#reportMoveStartAngle"
+                                                GridPane.columnIndex="0" GridPane.rowIndex="2"
+                                                styleClass="btn, btn-lg, btn-success"
+                                                mnemonicParsing="false" prefWidth="200" text="移动检测"/>
+                                        <Button fx:id="reportMoveStopBtn" onAction="#reportMoveStop"
+                                                GridPane.columnIndex="1" GridPane.rowIndex="2"
+                                                GridPane.columnSpan="2"
+                                                styleClass="btn, btn-lg, btn-danger"
+                                                mnemonicParsing="false" prefWidth="200" text="停止"/>
+                                    </children>
+                                </GridPane>
+                            </children>
+                        </VBox>
+                    </body>
+                </org.kordamp.bootstrapfx.scene.layout.Panel>
+            </children>
+        </GridPane>
+    </left>
+    <center>
+        <org.kordamp.bootstrapfx.scene.layout.Panel styleClass="panel-success">
+            <heading>
+                <GridPane BorderPane.alignment="CENTER" vgap="10" hgap="10" alignment="CENTER_LEFT">
+                    <children>
+                        <Label styleClass="h3" text="检测结果"/>
+                        <Button styleClass="btn, btn-default" text="清空结果" GridPane.rowIndex="0"
+                                GridPane.columnIndex="1" onAction="#clearReport"/>
+                        <Button styleClass="btn, btn-info" text="导出报告" GridPane.rowIndex="0"
+                                GridPane.columnIndex="2" onAction="#exportReport"/>
+                    </children>
+                </GridPane>
+            </heading>
+            <body>
+                <TableView fx:id="reportTable" HBox.hgrow="ALWAYS" style="-fx-padding: -15px">
+                    <columns>
+                        <TableColumn fx:id="tableID" prefWidth="20" text="序号" sortable="false" />
+                        <TableColumn fx:id="tableTYPE" prefWidth="20" text="类型" sortable="false"/>
+                        <TableColumn fx:id="tableTIME" prefWidth="80" text="时间" sortable="false"/>
+                        <TableColumn fx:id="tableDISTANCE" prefWidth="10" text="距离" sortable="false"/>
+                        <TableColumn fx:id="tablePOS" prefWidth="8" text="位置角" sortable="false"/>
+                        <TableColumn fx:id="tableHORIZONTAL" prefWidth="8" text="水平角" sortable="false"/>
+                        <TableColumn fx:id="tablePITCH" prefWidth="8" text="俯仰角" sortable="false"/>
+                        <TableColumn fx:id="tableINCLINATION" prefWidth="8" text="倾斜角" sortable="false"/>
+                        <TableColumn fx:id="tableBATTERY" prefWidth="8" visible="false" text="电量" sortable="false"/>
+                        <TableColumn fx:id="tableRESULT" prefWidth="8" text="验证成功" sortable="false"/>
+                    </columns>
+                    <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                    </columnResizePolicy>
+                </TableView>
+            </body>
+        </org.kordamp.bootstrapfx.scene.layout.Panel>
+    </center>
+    <right>
+        <org.kordamp.bootstrapfx.scene.layout.Panel styleClass="panel-default" GridPane.rowIndex="1" fx:id="logPanel">
+            <heading>
+                <GridPane BorderPane.alignment="CENTER" vgap="10" hgap="10" alignment="CENTER_LEFT">
+                    <children>
+                        <Label styleClass="h3" text="调试记录"/>
+                        <Button styleClass="btn, btn-default" text="清空记录" GridPane.rowIndex="0"
+                                GridPane.columnIndex="1" onAction="#clearLogText"/>
+                        <Button styleClass="btn, btn-info" text="保存记录" GridPane.rowIndex="0"
+                                GridPane.columnIndex="2" onAction="#saveLogText"/>
+                    </children>
+                </GridPane>
+            </heading>
+            <body>
+                <TextArea fx:id="logTextArea" editable="false" style="-fx-padding: -15px"/>
+            </body>
+        </org.kordamp.bootstrapfx.scene.layout.Panel>
+    </right>
+    <bottom>
+        <TextFlow styleClass="alert" fx:id="logMsgFlow">
+            <Text fx:id="logMsg"/>
+        </TextFlow>
+    </bottom>
+</BorderPane>

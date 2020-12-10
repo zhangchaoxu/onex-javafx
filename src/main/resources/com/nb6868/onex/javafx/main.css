@@ -1,0 +1,12 @@
+/** 下拉框主体*/
+.big_choiceBox {
+    -fx-min-width: 100px;
+    -fx-min-height: 30;
+    -fx-font-size: 14px;	/**字体大小 */
+}
+
+/** 下拉框主体*/
+.big_choiceBox .context-menu{
+    -fx-min-width: 100px;
+    -fx-font-size: 14px;
+}
